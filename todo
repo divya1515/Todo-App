@@ -1,0 +1,52 @@
+in todocontext--> some default values 
+// here todos is an array which contains various objects(item of todo) each is assinged with id
+export const todocontext=createContext({
+    todos:[
+        {
+            id:1,
+            todo:"todomsg",
+            completed:false,
+        },
+        {
+            
+        }
+    ],
+    addtodo:(todo)=>{},
+    updatedtodo:(id,todo)=>{},
+    deletetodo:(id,todo)=>{},
+    toggleComplete:(id)=>{},
+
+})
+
+in App.jsx.. here we are adding a new todo item in todos array ...now to add to the previous todos we have done settodos((prev)=>)..this prev means that the new todo we are adding is depending on the previous todo....now 
+[{}...prev] means ki prevous todos array tha usme first we are adding our new todo...
+setting the id unique by Date.now()...
+const addtodo=(todo)=>{
+    settodos((prev)=>[{id:Date.now(),...todo},...prev])
+ }
+
+ in deletetodo we want all other todos in our todos array except one whose id is given to delete thus use here filter 
+
+ const deletetodo=(id)=>{
+    settodos((prev)=> prev.filter((todo) => todo.id!=id))
+  }
+
+for togglecomplete..
+using map --loop to traverse each todo..and todo whose id == id to be completed..
+that is if prevtodo.id===id then we want ki mera jo completed hai each todo m vo true ho jaye...thus ki prevtodo m baaki saari cheeze as it is rkho..{...prevtodo}..and bs ek variable ko !completed krna hai 
+ settodos((prev)=> prev.map((prevtodo)=>(prevtodo.id===id?{...prevtodo,completed:!prevtodo.complted}:prevtodo)))
+
+ Method jo value laata hai react m ..like jaise react load ho toh ek function ya method jo local storage se value pick krke layega...ans unhe todos m insert krna ...that is useEffect
+
+ as abhi we are working on client side therefore we can use localStorage
+ localStorage.getItem("todos")
+ local storage gives value in string but we want in JSON...therfore type cast JSON.parse
+
+ In todoitem.jsx:
+
+ Inapp.jsx..
+ todos.map((todo)=>(
+    <div></div>
+  ))
+  ...here loop lga rhye hai ...toh agr value return krvani ho toh then use { } braces like todos.map((todo)=>{ })...otherwise if kuch return nhi krvana then means autoreturn by ( ) like todos.map((todo)=>( ))
+  Always remember keys in loops...as div repeat hoga ...toh to check that ki hr div unique ho therefore we use 
